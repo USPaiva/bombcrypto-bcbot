@@ -5,10 +5,10 @@ Logs in to the game, reconnects when needed, closes error warnings, sends heroes
 
 It is fully open source and free, compatible with Windows and Ubuntu.
 
-Telegram: https://t.me/+WXjrE1Kdb1U1Mzg0
+
 
 ## 🎁 Donation:
-### BUSD/BCOIN (BEP20): 0x8c38512beca8b0b06bf4e85f67ee64a7dcdaa11a
+### BUSD/BCOIN (BEP20):
 
 ``` 
 - 27/Dec/21
