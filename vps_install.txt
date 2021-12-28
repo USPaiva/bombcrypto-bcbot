@@ -1,0 +1,14 @@
+sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get install python3-pip
+sudo apt-get install wget
+sudo apt-get install unzip
+wget https://github.com/bts22/bombcrypto-bot/archive/refs/heads/main.zip
+unzip main.zip
+cd bombcrypto-bot-main
+pip3 install tesseract
+pip3 install -r requeriments.txt --force
+sudo apt-get install ubuntu-desktop
+sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get update && sudo apt-get install -y xrdp && sudo service xrdp restart && sudo -s
+passwd
+sudo apt-get update && sudo apt-get upgrade -y
