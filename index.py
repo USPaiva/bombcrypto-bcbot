@@ -64,14 +64,14 @@ try:
 except KeyError:
     print('Error: Please update the config.yaml file.')
     print('Erro: Por favor atualize o arquivo config.yaml.')
-    exit()
+
 
 config_version = '1.0.7' #Required config version
 
 if config_version > config_version_local:
     print('Error: Please update the config.yaml file.')
     print('Erro: Por favor atualize o arquivo config.yaml.')
-    exit()
+
 
 herald_active= streamConfig['herald_active']
 key_herald = streamConfig['key-herald']
@@ -850,7 +850,7 @@ def randomMouseMovement():
 
 def checkUpdates():
     data = requests.get(
-        'https://raw.githubusercontent.com/afkapp/bombcrypto-bcbot/main/config/version.yaml')
+        'https://raw.githubusercontent.com/carecabrilhante/bombcrypto-bcbot/main/config/version.yaml')
     try:
         streamVersionGithub = yaml.safe_load(data.text)
         version = streamVersionGithub['version']
@@ -870,7 +870,7 @@ def checkUpdates():
         versionLocal = None
 
     if (emergency == 'true' and version > versionLocal):
-        os._exit(0)
+
 
     if versionLocal is not None:
         print('Version installed: ' + versionLocal)
@@ -880,7 +880,7 @@ def checkUpdates():
     else:
         logger('Version not found, update is required',
                telegram=True, emoji='💥')
-        exit()
+
 
 def checkThreshold():
     global configThreshold
