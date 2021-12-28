@@ -15,3 +15,6 @@ sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get update && sudo apt-get install -y xrdp && sudo service xrdp restart && sudo -s
 passwd
 sudo apt-get update && sudo apt-get upgrade -y
+
+caso de erro no bot por causa do telegram, use:
+pip3 install --upgrade --force-reinstall python-telegram-bot
