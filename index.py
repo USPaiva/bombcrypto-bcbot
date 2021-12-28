@@ -380,7 +380,7 @@ def sendMapReport():
     return True
 
 #BTS Herald - Get a notification if the bot stops 
-def herald():
+#def herald():
     #if herald_active == True and key_herald != '':
         #herald = requests.get('https://herald.btscenter.net/monitor/?app=bcbot&key='+key_herald)
         
