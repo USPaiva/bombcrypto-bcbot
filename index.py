@@ -869,7 +869,7 @@ def checkUpdates():
     except FileNotFoundError:
         versionLocal = None
 
-    if (emergency == 'true' and version > versionLocal):
+   # if (emergency == 'true' and version > versionLocal):
 
 
     if versionLocal is not None:
