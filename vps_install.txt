@@ -17,4 +17,4 @@ passwd
 sudo apt-get update && sudo apt-get upgrade -y
 
 caso de erro no bot por causa do telegram, use:
-pip3 install --upgrade --force-reinstall python-telegram-bot
+pip3 install --upgrade --force-reinstall python_telegram_bot
