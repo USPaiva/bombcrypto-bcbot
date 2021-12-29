@@ -32,8 +32,8 @@ banner = """
 #********************************************************************************#
 #*********************** Please consider buying me a coffee *********************#
 #********************************************************************************#
-#******** BUSD/BCOIN (BEP20): 0x8c38512beca8b0b06bf4e85f67ee64a7dcdaa11a ********#
-#********************************************************************************#
+#******** BUSD/BCOIN (BEP20): ********#
+#*******************************************************************************#
 
            ---> Press CTRL+C to kill the bot or send /stop on Telegram.
           ---> Some configs can be found in the /config/config.yaml file.
@@ -189,11 +189,11 @@ if telegramIntegration == True:
 
         def send_wallet(update: Update, context: CallbackContext) -> None:
             update.message.reply_text(
-                f'🎁 BUSD/BCOIN(BEP20): \n\n 0x8c38512beca8b0b06bf4e85f67ee64a7dcdaa11a \n\n Thank You! 😀')
+                f'🎁 BUSD/BCOIN(BEP20): \n\n  \n\n Thank You! 😀')
 
         def send_telegram_invite(update: Update, context: CallbackContext) -> None:
             update.message.reply_text(
-                f'💖 Join us on BCBOT Telegram group: https://t.me/+WXjrE1Kdb1U1Mzg0')
+                f'💖 Join us on BCBOT Telegram group: ')
 
         def send_herald(update: Update, context: CallbackContext) -> None:
             update.message.reply_text(
@@ -645,7 +645,7 @@ def goToTreasureHunt():
         if clickButton(x_button_img):
             sleep(1, 3)
             clickButton(teasureHunt_icon_img)
-            herald()
+           # herald()
     if currentScreen() == "unknown" or currentScreen() == "login":
         checkLogout()
 
