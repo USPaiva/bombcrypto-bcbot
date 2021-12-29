@@ -646,7 +646,7 @@ def goToTreasureHunt():
         if clickButton(x_button_img):
             sleep(1, 3)
             clickButton(teasureHunt_icon_img)
-            herald()
+            #herald()
     if currentScreen() == "unknown" or currentScreen() == "login":
         checkLogout()
 
