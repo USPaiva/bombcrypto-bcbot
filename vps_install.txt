@@ -1,5 +1,6 @@
-vps do Google
-recomendado usar o processador e3 2v, 8gb e o ubuntu 20.04
+vps Google
+recommend use processor E3 2v, 4gb and ubutu 20.04
+recomendado usar o processador e3 2v, 4gb e o ubuntu 20.04
 
 sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get install python3-pip
@@ -10,11 +11,14 @@ unzip main.zip
 cd bombcrypto-bot-main
 pip3 install tesseract
 pip3 install -r requeriments.txt --force
-sudo apt-get install ubuntu-desktop (caso não tenha interface gráfica)
+sudo apt-get install ubuntu-desktop (if you didn't have Desktop interface)
 sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get update && sudo apt-get install -y xrdp && sudo service xrdp restart && sudo -s
 passwd
 sudo apt-get update && sudo apt-get upgrade -y
 
-caso de erro no bot por causa do telegram, use:
+if bot failed because of telegram, use:
 pip3 install --upgrade --force-reinstall python_telegram_bot
+
+Now for execute, you only need go to the paste where is it located via terminal and use this command:
+python3 index.py
