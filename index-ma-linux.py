@@ -1,7 +1,7 @@
 from cv2 import cv2
 from pyclick import HumanClicker
 from telegram import Update
-from telegram.ext import Updater, CommandHandler, CallbackContext
+from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandler, Filters
 import numpy as np
 import mss
 import pyautogui
@@ -83,6 +83,8 @@ try:
     telegramBotToken = streamConfigTelegram['telegram_bot_token']
     telegramCoinReport = streamConfigTelegram['enable_coin_report']
     telegramMapReport = streamConfigTelegram['enable_map_report']
+    telegramHeroesReport = streamConfigTelegram['enable_heroe_report']
+    telegramFreezeReport = streamConfigTelegram['enable_freeze_report']
     telegramFormatImage = streamConfigTelegram['format_of_images']
     stream.close()
 except FileNotFoundError:
@@ -116,8 +118,7 @@ full_stamina = cv2.imread('./images/targets/full-stamina.png')
 character_indicator = cv2.imread('./images/targets/character_indicator.png')
 error_img = cv2.imread('./images/targets/error.png')
 metamask_unlock_img = cv2.imread('./images/targets/unlock_metamask.png')
-metamask_cancel_button = cv2.imread(
-    './images/targets/metamask_cancel_button.png')
+metamask_cancel_button = cv2.imread('./images/targets/metamask_cancel_button.png')
 puzzle_img = cv2.imread('./images/targets/puzzle.png')
 piece = cv2.imread('./images/targets/piece.png')
 robot = cv2.imread('./images/targets/robot.png')
@@ -130,10 +131,28 @@ chest2 = cv2.imread('./images/targets/chest2.png')
 chest3 = cv2.imread('./images/targets/chest3.png')
 chest4 = cv2.imread('./images/targets/chest4.png')
 
+#########################################################
+server_manu = cv2.imread('./images/targets/server_online.png')
+bomb_guia = cv2.imread('./images/targets/bomb_guia.png')
+select_guia = cv2.imread('./images/targets/select_guia.png')
+perfil_1_mozi = cv2.imread('./images/targets/perfil_1_mozi.png')
+perfil_2_mozi = cv2.imread('./images/targets/perfil_2_mozi.png')
+perfil_3_mozi = cv2.imread('./images/targets/perfil_3_mozi.png')
+#################################################################
+guia = cv2.imread('./images/targets/perfil_1_guia.png')
+perfil_2_guia = cv2.imread('./images/targets/perfil_2_guia.png')
+perfil_3_guia = cv2.imread('./images/targets/perfil_3_guia.png')
+
+
+##############################################################
 def dateFormatted(format = '%Y-%m-%d %H:%M:%S'):
   datetime = time.localtime()
   formatted = time.strftime(format, datetime)
   return formatted
+
+TIMEa = "2002-01-07 12:20:34".format(dateFormatted())
+TIMEb = "2002-01-07 12:20:42".format(dateFormatted())
+#freeze = int(0)
 
 def logger(message, telegram=False, emoji=None):
     formatted_datetime = dateFormatted()
@@ -163,6 +182,7 @@ if telegramIntegration == True:
 
     try:
         TBot = telegram.Bot(token=telegramBotToken)
+        
 
         def send_print(update: Update, context: CallbackContext) -> None:
             update.message.reply_text('🔃 Proccessing...')
@@ -201,7 +221,24 @@ if telegramIntegration == True:
         def send_stop(update: Update, context: CallbackContext) -> None:
             logger('Shutting down bot...', telegram=True, emoji='🛑')
             os._exit(0)
-               
+        #############################################################
+        def send_heroes(update: Update, context: CallbackContext) -> None:
+            update.message.reply_text('🔃 Proccessing...')
+            if sendHeroesReport() is None:
+                update.message.reply_text('😿 An error has occurred')
+        
+        def frozen_time(update: Update, context: CallbackContext) -> None:
+            update.message.reply_text('🔃 Proccessing...')
+            #timet= str(update.message.text)
+            #formatted_datetime = dateFormatted()
+            #T = timet.replace("/frozeen","")
+            #a=[T.split(";")]
+            #TIMEa = a[0][0].format(formatted_datetime)
+            #TIMEb = a[0][1].format(formatted_datetime)
+            #print (TIMEa, "/", TIMEb)
+            if sendFrozeeReport() is None:
+                update.message.reply_text('😿 An error has occurred')
+                
         commands = [
             ['print', send_print],
             ['id', send_id],
@@ -209,14 +246,15 @@ if telegramIntegration == True:
             ['bcoin', send_bcoin],
             ['donation', send_wallet],
             ['invite', send_telegram_invite],
-            ['herald', send_herald],
+            ['frozeen', frozen_time],
+            ['heroes', send_heroes],
             ['stop', send_stop]
         ]
 
         for command in commands:
             updater.dispatcher.add_handler(
                 CommandHandler(command[0], command[1]))
-
+       
         updater.start_polling()
         # updater.idle()
     except:
@@ -376,6 +414,50 @@ def sendMapReport():
     logger('Map report sent', telegram=True, emoji='📄')
     return True
 
+##################################################################
+def sendHeroesReport():
+    if telegramIntegration == False:
+        return
+    if(len(telegramChatId) <= 0 or telegramHeroesReport is False):
+        return
+
+    if currentScreen() == "main":
+            time.sleep(2)
+    elif currentScreen() == "character":
+        if clickButton(x_button_img):
+            time.sleep(2)
+    elif currentScreen() == "thunt":
+        if clickButton(arrow_img):
+            time.sleep(2)
+    else:
+        return
+    
+    clickButton(hero_img)
+    
+    sleep(5, 15)
+    
+
+
+    screenshot = printScreen()
+    cv2.imwrite('./logs/heroes-report.%s' % telegramFormatImage, screenshot)
+    time.sleep(1)
+    try:
+       for chat_id in telegramChatId:
+                TBot.send_photo(chat_id=chat_id, photo=open('./logs/heroes-report.%s' % telegramFormatImage, 'rb'))
+    except:
+        logger('Telegram offline', emoji='😿')
+    
+    clickButton(x_button_img)
+    logger('Heroes report sent', telegram=True, emoji='📄')
+    
+def sendFrozeeReport():
+    if telegramIntegration == False:
+        return
+    if(len(telegramChatId) <= 0 or telegramFreezeReport is False):
+        return
+    return
+    
+#############################################
 #BTS Herald - Get a notification if the bot stops 
 #def herald():
     #if herald_active == True and key_herald != '':
@@ -617,6 +699,8 @@ def currentScreen():
     elif positions(character_indicator) is not False:
         # sys.stdout.write("\ncharacter. ")
         return "character"
+    elif positions(server_manu) is not False:
+        return "server_manu"
     else:
         # sys.stdout.write("\nUnknown. ")
         return "unknown"
@@ -888,14 +972,14 @@ def checkThreshold():
         configThreshold = newConfigThreshold
         logger('New Threshold applied', telegram=False, emoji='⚙️')
 
+t=0
 
 def main():
-
+    
     checkUpdates()
     input('Press Enter to start the bot...\n')
     logger('Starting bot...', telegram=True, emoji='🤖')
-    logger('Join us on BCBOT Telegram group: https://t.me/+WXjrE1Kdb1U1Mzg0', telegram=True, emoji='💖')
-    logger('Commands: \n\n /print \n /map \n /bcoin \n /invite \n /id \n /donation \n\n /stop - Stop bot', telegram=True, emoji='ℹ️')
+    logger('Commands: \n\n /print \n /map \n /bcoin \n /invite \n /id \n /donation \n /heroes \n /frozeen (space and set time in Year-Month-Day Hours:Minutes:Seconds - thats for stops the bot temporarily by appointment \n /stop - Stop bot', telegram=True, emoji='ℹ️')
     logger('Multi Account BETA is available. Run: python index-ma.py and not index.py for tests.', telegram=True, emoji='💡')
 
     last = {
@@ -905,46 +989,80 @@ def main():
         "refresh_heroes": 0,
         "check_updates": 0
     }
-
     while True:
-        if currentScreen() == "login":
-            login()
-
-        handleError()
-
         now = time.time()
 
-        if now - last["heroes"] > next_refresh_heroes * 60:
-            last["heroes"] = now
-            last["refresh_heroes"] = now
-            getMoreHeroes()
+        sleep(1, 3)
+        clickButton(select_guia)
+        sleep(1, 3)
+        clickButton(perfil_1_mozi)
+        sleep(1, 3)
+        clickButton(select_guia)
+        sleep(1, 3)
+        clickButton(bomb_guia)
+        sleep(1, 3)
+        clickButton(guia)
+        sleep(1, 3)
+        
+        clickButton(select_guia)
+        sleep(1, 3)
+        clickButton(perfil_2_mozi)
+        sleep(1, 3)
+        clickButton(select_guia)
+        sleep(1, 3)
+        clickButton(bomb_guia)
+        sleep(1, 3)
+        clickButton(guia)
+        sleep(1, 3)
+        
+        clickButton(select_guia)
+        sleep(1, 3)
+        clickButton(perfil_3_mozi)
+        sleep(1, 3)
+        clickButton(select_guia)
+        sleep(1, 3)
+        clickButton(bomb_guia)
+        sleep(1, 3)
+        clickButton(guia)
+        sleep(1, 3)
 
-        if currentScreen() == "main":
-            if clickButton(teasureHunt_icon_img):
-                logger('Entering treasure hunt', emoji='▶️')
+
+        if currentScreen() != "server_manu" : #TIME[0] > now > TIME [1]
+            if currentScreen() == "login":
+                login()
+                handleError()
+
+            if now - last["heroes"] > next_refresh_heroes * 60:
+                last["heroes"] = now
                 last["refresh_heroes"] = now
+                getMoreHeroes()
 
-        if currentScreen() == "thunt":
-            if clickButton(new_map_btn_img):
-                last["new_map"] = now
-                clickNewMap()
+            if currentScreen() == "main":
+                if clickButton(teasureHunt_icon_img):
+                    logger('Entering treasure hunt', emoji='▶️')
+                    last["refresh_heroes"] = now
 
-        if currentScreen() == "character":
-            clickButton(x_button_img)
-            sleep(1, 3)
+            if currentScreen() == "thunt":
+                if clickButton(new_map_btn_img):
+                    last["new_map"] = now
+                    clickNewMap()
 
-        if now - last["refresh_heroes"] > next_refresh_heroes_positions * 60:
-            last["refresh_heroes"] = now
-            refreshHeroesPositions()
+            if currentScreen() == "character":
+                clickButton(x_button_img)
+                sleep(1, 3)
 
-        if now - last["check_updates"] > check_for_updates * 60:
-            last["check_updates"] = now
-            checkUpdates()
+            if now - last["refresh_heroes"] > next_refresh_heroes_positions * 60:
+                last["refresh_heroes"] = now
+                refreshHeroesPositions()
 
-        checkLogout()
-        sys.stdout.flush()
-        time.sleep(general_check_time)
-        checkThreshold()
+            if now - last["check_updates"] > check_for_updates * 60:
+                last["check_updates"] = now
+                checkUpdates()
+
+            checkLogout()
+            sys.stdout.flush()
+            time.sleep(general_check_time)
+            checkThreshold()
 
 
 if __name__ == '__main__':
