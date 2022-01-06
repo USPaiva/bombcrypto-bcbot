@@ -1,9 +1,11 @@
-# Version 1.6.0:
+# Version 1.7.0:
 what is new?
 
 Update for new images
 
-3 new commands for telegram: /refresh ; /Pause ; /heroes
+5 new commands for telegram: /refresh ; /Pause ; /heroes ; /allRest ; /allWork
+
+when start a newmap put all heroes to work, excepted the commons.
 
 # BombCrypto BCBOT
 This is a python bot to automate BombCrypto game.
