@@ -14,6 +14,8 @@ Logs in to the game, reconnects when needed, closes error warnings, sends heroes
 
 It is fully open source and free, compatible with Windows and Ubuntu.
 
+support for multiaccount for windows and Ubuntu coming soon
+
 ## 🎁 Donation:
 ### BUSD/BCOIN (BEP20):
 
