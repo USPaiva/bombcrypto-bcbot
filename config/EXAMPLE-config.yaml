@@ -15,7 +15,7 @@
 #********************************************************************************#
 #********************* Please consider buying me a coffee 😁 ********************#
 #********************************************************************************#
-#******** BUSD/BCOIN (BEP20): 0x8c38512beca8b0b06bf4e85f67ee64a7dcdaa11a ********#
+#******** BUSD/BCOIN (BEP20):                                            ********#
 #********************************************************************************#
 
   lang: 'en'          #----> Bot language (in development)
@@ -64,6 +64,14 @@
     # [pt_BR] Intervalo de tempo entre movimentos
     # Valor padrão (em segundos): 1
     interval_between_movements: 1
+  
+    # [en_US] Time interval for the Pause
+    # Default value (in minutes): 30 
+    #
+    # [pt_BR] Intervalo de tempo de pausa
+    # Valor padrão (em minutos): 30
+    Pause: 30
+
 
   # [en_US] Value of chests
   #
@@ -219,80 +227,6 @@
   # [pt_BR] mostra mais informações 
   # Valor padrão: false
   debug: False
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
