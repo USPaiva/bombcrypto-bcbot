@@ -42,6 +42,8 @@ banner = """
 
 print(banner)
 
+P=[]
+
 def readConfig():
     with open("./config/config.yaml", 'r', encoding='utf8') as s:
         stream = s.read()
@@ -76,6 +78,8 @@ if config_version > config_version_local:
 herald_active= streamConfig['herald_active']
 key_herald = streamConfig['key-herald']
 
+Pause= configTimeIntervals['Pause']
+
 telegramIntegration = False
 try:
     stream = open("./config/telegram.yaml", 'r', encoding='utf8')
@@ -86,6 +90,7 @@ try:
     telegramCoinReport = streamConfigTelegram['enable_coin_report']
     telegramMapReport = streamConfigTelegram['enable_map_report']
     telegramFormatImage = streamConfigTelegram['format_of_images']
+    telegramHeroesReport = streamConfigTelegram['enable_heroes_report']
     stream.close()
 except FileNotFoundError:
     print('Info: Telegram not configure, rename EXAMPLE-telegram.yaml to telegram.yaml')
@@ -203,15 +208,32 @@ if telegramIntegration == True:
         def send_stop(update: Update, context: CallbackContext) -> None:
             logger('Shutting down bot...', telegram=True, emoji='🛑')
             os._exit(0)
-               
+        #############################################################
+        def send_heroes(update: Update, context: CallbackContext) -> None:
+            update.message.reply_text('🔃 Proccessing...')
+            if sendHeroesReport() is None:
+                update.message.reply_text('😿 An error has occurred')
+        
+        def send_refresh(update: Update, context: CallbackContext) -> None:
+            update.message.reply_text('🔃 Proccessing...')
+            if refreshNavigation() is None:
+                update.message.reply_text('🔃 Refreshing page')
+       
+        def send_Pause(update: Update, context: CallbackContext) -> None:
+            update.message.reply_text('🔃 Proccessing...')
+            P.append(1)
+            if len(P) == 1:
+                update.message.reply_text('😿 Paused')
+        
         commands = [
             ['print', send_print],
             ['id', send_id],
             ['map', send_map],
             ['bcoin', send_bcoin],
             ['donation', send_wallet],
-            ['invite', send_telegram_invite],
-            ['herald', send_herald],
+            ['refresh', send_refresh],
+            ['Pause', send_Pause],
+            ['heroes', send_heroes],
             ['stop', send_stop]
         ]
 
@@ -891,14 +913,51 @@ def checkThreshold():
         configThreshold = newConfigThreshold
         logger('New Threshold applied', telegram=False, emoji='⚙️')
 
+##################################################################
+def sendHeroesReport():
+    if telegramIntegration == False:
+        return
+    if(len(telegramChatId) <= 0 or telegramHeroesReport is False):
+        return
 
+    if currentScreen() == "main":
+            time.sleep(2)
+    elif currentScreen() == "character":
+        if clickButton(x_button_img):
+            time.sleep(2)
+    elif currentScreen() == "thunt":
+        if clickButton(arrow_img):
+            time.sleep(2)
+    else:
+        return
+    clickButton(hero_img)
+    sleep(5, 15)
+    screenshot = printScreen()
+    cv2.imwrite('./logs/heroes-report.%s' % telegramFormatImage, screenshot)
+    time.sleep(1)
+    try:
+       for chat_id in telegramChatId:
+                TBot.send_photo(chat_id=chat_id, photo=open('./logs/heroes-report.%s' % telegramFormatImage, 'rb'))
+    except:
+        logger('Telegram offline', emoji='😿')
+    
+    clickButton(x_button_img)
+    logger('Heroes report sent', telegram=True, emoji='📄')
+
+def refreshNavigation():
+    logger('Refresh navigation', emoji='🤖')
+    pyautogui.hotkey('ctrl', 'shift', 'r')    
+
+def sendPauseReport():
+    return P      
+
+#############################################
 def main():
 
     checkUpdates()
     input('Press Enter to start the bot...\n')
     logger('Starting bot...', telegram=True, emoji='🤖')
-    logger('Join us on BCBOT Telegram group: https://t.me/+WXjrE1Kdb1U1Mzg0', telegram=True, emoji='💖')
-    logger('Commands: \n\n /print \n /map \n /bcoin \n /invite \n /id \n /donation \n\n /stop - Stop bot', telegram=True, emoji='ℹ️')
+    logger('Commands: \n\n /print \n /map \n /bcoin \n /id \n /donation \n /heroes \n /refresh \n /Pause - Pause bot for 30min \n /stop - Stop bot', telegram=True, emoji='ℹ️')
     logger('Multi Account BETA is available. Run: python index-ma.py and not index.py for tests.', telegram=True, emoji='💡')
 
     last = {
@@ -916,6 +975,13 @@ def main():
         handleError()
 
         now = time.time()
+
+        s=sendPauseReport()
+        if len(s) == 1:
+            logger('paused', emoji='🤖')
+            #logger(s)
+            time.sleep(Pause*60)
+            P.remove(1)
 
         if now - last["heroes"] > next_refresh_heroes * 60:
             last["heroes"] = now
