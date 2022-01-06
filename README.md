@@ -1,9 +1,9 @@
 # Version 1.7.0:
 what is new?
 
-Update for new images
+Update for new images.
 
-5 new commands for telegram: /refresh ; /Pause ; /heroes ; /allRest ; /allWork
+5 new commands for telegram: /refresh ; /Pause ; /heroes ; /allRest ; /allWork .
 
 when start a newmap put all heroes to work, excepted the commons.
 
@@ -14,7 +14,7 @@ Logs in to the game, reconnects when needed, closes error warnings, sends heroes
 
 It is fully open source and free, compatible with Windows and Ubuntu.
 
-support for multiaccount for windows and Ubuntu coming soon
+support for multiaccount for windows and Ubuntu coming soon.
 
 ## 🎁 Donation:
 ### BUSD/BCOIN (BEP20):
