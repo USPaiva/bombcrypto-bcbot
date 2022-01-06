@@ -1114,7 +1114,7 @@ def main():
         if currentScreen() == "thunt":
             if clickButton(new_map_btn_img):
                 last["new_map"] = now
-                getsuperHeroes()
+                #getsuperHeroes()
                 clickNewMap()
 
         if currentScreen() == "character":
