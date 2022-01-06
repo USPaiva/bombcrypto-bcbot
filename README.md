@@ -1,6 +1,7 @@
 # Version 1.6.0:
 what is new?
     Update for new images
+
 2 new commands for telegram: /refresh /Pause
 
 # BombCrypto BCBOT
