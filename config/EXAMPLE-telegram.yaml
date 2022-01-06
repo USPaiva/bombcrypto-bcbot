@@ -44,6 +44,8 @@ telegram_bot_token: "YOUR_TELEGRAM_BOT_TOKEN"
 enable_coin_report: false
 enable_map_report: false
 enable_heroes_report: false
+enable_allwork_report: false
+enable_allrest_report: false
 format_of_images: "jpg"
 
 
