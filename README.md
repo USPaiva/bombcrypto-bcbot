@@ -8,6 +8,8 @@ Update for new images.
 hotfix: 
 images and removed send all heroes to work, excepted commons, when is a new map .
 
+beta version of multiaccount for windows.
+
 # BombCrypto BCBOT
 This is a python bot to automate BombCrypto game.
 
@@ -15,7 +17,7 @@ Logs in to the game, reconnects when needed, closes error warnings, sends heroes
 
 It is fully open source and free, compatible with Windows and Ubuntu.
 
-support for multiaccount for windows and Ubuntu coming soon.
+support for multiaccount for Ubuntu coming soon.
 
 ## 🎁 Donation:
 ### BUSD/BCOIN (BEP20):
