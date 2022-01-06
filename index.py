@@ -75,8 +75,8 @@ if config_version > config_version_local:
     print('Erro: Por favor atualize o arquivo config.yaml.')
 
 
-herald_active= streamConfig['herald_active']
-key_herald = streamConfig['key-herald']
+#herald_active= streamConfig['herald_active']
+#key_herald = streamConfig['key-herald']
 
 Pause= configTimeIntervals['Pause']
 
@@ -1092,6 +1092,8 @@ def main():
 
         now = time.time()
 
+        #getsuperHeroes()
+        
         s=sendPauseReport()
         if len(s) == 1:
             logger('paused', emoji='🤖')
