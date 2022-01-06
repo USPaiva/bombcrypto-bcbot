@@ -1,7 +1,7 @@
 # Version 1.6.0:
-  what is new?
+what is new?
     Update for new images
-    2 new commands for telegram: /refresh /Pause
+2 new commands for telegram: /refresh /Pause
 
 # BombCrypto BCBOT
 This is a python bot to automate BombCrypto game.
