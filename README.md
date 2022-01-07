@@ -9,13 +9,14 @@ beta version of multiaccount for windows.
 beta version of multiaccount for Ubuntu using firefox, if you want use other browser you need to change the images.
 
 # BombCrypto BCBOT
+This bot is a fork of the old version of the bts22 bot.
+
 This is a python bot to automate BombCrypto game.
 
 Logs in to the game, reconnects when needed, closes error warnings, sends heroes to work or home automatically, has Telegram integration and lets you know by message or call if the farm stop.
 
 It is fully open source and free, compatible with Windows and Ubuntu.
 
-support for multiaccount for Ubuntu coming soon.
 
 ## 🎁 Donation:
 ### BUSD/BCOIN (BEP20):
@@ -27,3 +28,10 @@ support for multiaccount for Ubuntu coming soon.
  |
 $0
 ```
+
+
+## Credits:
+[mpcabete](https://github.com/mpcabete/bombcrypto-bot)  
+[vin350](https://github.com/vin350/bombcrypto-bot)  
+[afkapp](https://github.com/afkapp/bombcrypto-bcbot)  
+**If you are happy, donation for one of this projects**
