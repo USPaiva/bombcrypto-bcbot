@@ -74,11 +74,8 @@ config_version = '1.0.7' #Required config version
 if config_version > config_version_local:
     print('Error: Please update the config.yaml file.')
     print('Erro: Por favor atualize o arquivo config.yaml.')
-
-
-#herald_active= streamConfig['herald_active']
-#key_herald = streamConfig['key-herald']
-
+           
+        
 Pause= configTimeIntervals['Pause']
 
 telegramIntegration = False
@@ -413,10 +410,6 @@ def sendMapReport():
     logger('Map report sent', telegram=True, emoji='📄')
     return True
 
-#BTS Herald - Get a notification if the bot stops 
-#def herald():
-    #if herald_active == True and key_herald != '':
-        #herald = requests.get('https://herald.btscenter.net/monitor/?app=bcbot&key='+key_herald)
         
 def clickButton(img, name=None, timeout=3, threshold=configThreshold['default']):
     if not name is None:
