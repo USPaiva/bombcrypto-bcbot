@@ -5,6 +5,7 @@ from telegram.ext import Updater, CommandHandler, CallbackContext
 import numpy as np
 import mss
 import pyautogui
+import pygetwindow
 import telegram
 import os
 import time
@@ -31,7 +32,7 @@ banner = """
 #********************************************************************************#
 #*********************** Please consider buying me a coffee *********************#
 #********************************************************************************#
-#******** BUSD/BCOIN (BEP20):  ********#
+#******** BUSD/BCOIN (BEP20):                                            ********#
 #********************************************************************************#
 
            ---> Press CTRL+C to kill the bot or send /stop on Telegram.
@@ -41,6 +42,8 @@ banner = """
 """
 
 print(banner)
+
+P=[]
 
 def readConfig():
     with open("./config/config.yaml", 'r', encoding='utf8') as s:
@@ -73,8 +76,9 @@ if config_version > config_version_local:
     print('Erro: Por favor atualize o arquivo config.yaml.')
 
 
-herald_active= streamConfig['herald_active']
-key_herald = streamConfig['key-herald']
+Pause= configTimeIntervals['Pause']
+acc= configTimeIntervals['acc']
+up= configTimeIntervals['up']
 
 telegramIntegration = False
 try:
@@ -86,6 +90,9 @@ try:
     telegramCoinReport = streamConfigTelegram['enable_coin_report']
     telegramMapReport = streamConfigTelegram['enable_map_report']
     telegramFormatImage = streamConfigTelegram['format_of_images']
+    telegramHeroesReport = streamConfigTelegram['enable_heroes_report']
+    telegramAllWorkReport = streamConfigTelegram['enable_allwork_report']
+    telegramAllRestReport = streamConfigTelegram['enable_allrest_report']
     stream.close()
 except FileNotFoundError:
     print('Info: Telegram not configure, rename EXAMPLE-telegram.yaml to telegram.yaml')
@@ -118,8 +125,7 @@ full_stamina = cv2.imread('./images/targets/full-stamina.png')
 character_indicator = cv2.imread('./images/targets/character_indicator.png')
 error_img = cv2.imread('./images/targets/error.png')
 metamask_unlock_img = cv2.imread('./images/targets/unlock_metamask.png')
-metamask_cancel_button = cv2.imread(
-    './images/targets/metamask_cancel_button.png')
+metamask_cancel_button = cv2.imread('./images/targets/metamask_cancel_button.png')
 puzzle_img = cv2.imread('./images/targets/puzzle.png')
 piece = cv2.imread('./images/targets/piece.png')
 robot = cv2.imread('./images/targets/robot.png')
@@ -131,6 +137,27 @@ chest1 = cv2.imread('./images/targets/chest1.png')
 chest2 = cv2.imread('./images/targets/chest2.png')
 chest3 = cv2.imread('./images/targets/chest3.png')
 chest4 = cv2.imread('./images/targets/chest4.png')
+####################################################################
+allwork = cv2.imread('./images/targets/all_work.png')
+allrest = cv2.imread('./images/targets/all_rest.png')
+common = cv2.imread('./images/targets/common.png')
+rest = cv2.imread('./images/targets/go-rest.png')
+#########################################################
+server_manu = cv2.imread('./images/targets/server_online.png')
+bomb_guia = cv2.imread('./images/targets/bomb_guia.png')
+select_guia = cv2.imread('./images/targets/select_guia.png')
+menu_de_guias = cv2.imread('./images/targets/menu_de_guias.png')
+new_win = cv2.imread('./images/targets/new_win.png')
+#################################################################
+perfil_1_mozi = cv2.imread('./images/targets/perfil_1_mozi.png')
+perfil_2_mozi = cv2.imread('./images/targets/perfil_2_mozi.png')
+perfil_3_mozi = cv2.imread('./images/targets/perfil_3_mozi.png')
+#################################################################
+guia = cv2.imread('./images/targets/perfil_1_guia.png')
+perfil_2_guia = cv2.imread('./images/targets/perfil_2_guia.png')
+perfil_3_guia = cv2.imread('./images/targets/perfil_3_guia.png')
+
+
 
 def dateFormatted(format = '%Y-%m-%d %H:%M:%S'):
   datetime = time.localtime()
@@ -192,26 +219,47 @@ if telegramIntegration == True:
             update.message.reply_text(
                 f'🎁 BUSD/BCOIN(BEP20): \n\n  \n\n Thank You! 😀')
 
-        def send_telegram_invite(update: Update, context: CallbackContext) -> None:
-            update.message.reply_text(
-                f'💖 Join us on BCBOT Telegram group: ')
-
-        def send_herald(update: Update, context: CallbackContext) -> None:
-            update.message.reply_text(
-                f'📲 BTS Herald is coming soon. Keep your BCBOT up to date.')
-
         def send_stop(update: Update, context: CallbackContext) -> None:
             logger('Shutting down bot...', telegram=True, emoji='🛑')
             os._exit(0)
-               
+        #############################################################
+        def send_heroes(update: Update, context: CallbackContext) -> None:
+            update.message.reply_text('🔃 Proccessing...')
+            if sendHeroesReport() is None:
+                update.message.reply_text('😿 An error has occurred')
+        
+        def send_refresh(update: Update, context: CallbackContext) -> None:
+            update.message.reply_text('🔃 Proccessing...')
+            if refreshNavigation() is None:
+                update.message.reply_text('🔃 Refreshing page')
+        
+        def send_allwork(update: Update, context: CallbackContext) -> None:
+            update.message.reply_text('🔃 Proccessing...')
+            if sendallworkReport() is None:
+                update.message.reply_text('Done✔️')
+        
+        def send_allrest(update: Update, context: CallbackContext) -> None:
+            update.message.reply_text('🔃 Proccessing...')
+            if sendallrestReport() is None:
+                update.message.reply_text('Done✔️')
+        
+        def send_Pause(update: Update, context: CallbackContext) -> None:
+            update.message.reply_text('🔃 Proccessing...')
+            P.append(1)
+            if len(P) == 1:
+                update.message.reply_text('😿 Paused')
+        
         commands = [
             ['print', send_print],
             ['id', send_id],
             ['map', send_map],
             ['bcoin', send_bcoin],
             ['donation', send_wallet],
-            ['invite', send_telegram_invite],
-            ['herald', send_herald],
+            ['refresh', send_refresh],
+            ['Pause', send_Pause],
+            ['heroes', send_heroes],
+            ['AllWork', send_allwork],
+            ['AllRest', send_allrest],
             ['stop', send_stop]
         ]
 
@@ -379,10 +427,6 @@ def sendMapReport():
     logger('Map report sent', telegram=True, emoji='📄')
     return True
 
-#BTS Herald - Get a notification if the bot stops 
-#def herald():
-    #if herald_active == True and key_herald != '':
-        #herald = requests.get('https://herald.btscenter.net/monitor/?app=bcbot&key='+key_herald)
         
 def clickButton(img, name=None, timeout=3, threshold=configThreshold['default']):
     if not name is None:
@@ -620,6 +664,8 @@ def currentScreen():
     elif positions(character_indicator) is not False:
         # sys.stdout.write("\ncharacter. ")
         return "character"
+    elif positions(bomb_guia) is not False:
+        return "bomb_guia"
     else:
         # sys.stdout.write("\nUnknown. ")
         return "unknown"
@@ -891,24 +937,226 @@ def checkThreshold():
         configThreshold = newConfigThreshold
         logger('New Threshold applied', telegram=False, emoji='⚙️')
 
+##################################################################
+def sendHeroesReport():
+    if telegramIntegration == False:
+        return
+    if(len(telegramChatId) <= 0 or telegramHeroesReport is False):
+        return
+
+    if currentScreen() == "main":
+            time.sleep(2)
+    elif currentScreen() == "character":
+        if clickButton(x_button_img):
+            time.sleep(2)
+    elif currentScreen() == "thunt":
+        if clickButton(arrow_img):
+            time.sleep(2)
+    else:
+        return
+    clickButton(hero_img)
+    sleep(5, 15)
+    screenshot = printScreen()
+    cv2.imwrite('./logs/heroes-report.%s' % telegramFormatImage, screenshot)
+    time.sleep(1)
+    try:
+       for chat_id in telegramChatId:
+                TBot.send_photo(chat_id=chat_id, photo=open('./logs/heroes-report.%s' % telegramFormatImage, 'rb'))
+    except:
+        logger('Telegram offline', emoji='😿')
+    
+    clickButton(x_button_img)
+    logger('Heroes report sent', telegram=True, emoji='📄')
+    
+def sendallworkReport():
+    if telegramIntegration == False:
+        return
+    if(len(telegramChatId) <= 0 or telegramAllWorkReport is False):
+        return
+    if currentScreen() == "main":
+            time.sleep(2)
+    elif currentScreen() == "character":
+        if clickButton(x_button_img):
+            time.sleep(2)
+    elif currentScreen() == "thunt":
+        if clickButton(arrow_img):
+            time.sleep(2)
+    else:
+        return
+    
+    clickButton(hero_img)    
+    waitForImage(home_img)
+    clickButton(allwork)
+    clickButton(x_button_img)
+    clickButton(teasureHunt_icon_img)
+    sleep(5, 15)
+    clickButton(x_button_img)
+    logger('All working report sent', telegram=True, emoji='📄')
+
+def sendallrestReport():
+    if telegramIntegration == False:
+        return
+    if(len(telegramChatId) <= 0 or telegramAllRestReport is False):
+        return
+    if currentScreen() == "main":
+            time.sleep(2)
+    elif currentScreen() == "character":
+        if clickButton(x_button_img):
+            time.sleep(2)
+    elif currentScreen() == "thunt":
+        if clickButton(arrow_img):
+            time.sleep(2)
+    else:
+        return
+    
+    clickButton(hero_img)    
+    waitForImage(home_img)
+    clickButton(allrest)
+    clickButton(x_button_img)
+    clickButton(teasureHunt_icon_img)
+    sleep(5, 15)    
+    clickButton(x_button_img)
+    logger('All resting report sent', telegram=True, emoji='📄')
+
+
+
+def refreshNavigation():
+    logger('Refresh navigation', emoji='🤖')
+    pyautogui.hotkey('ctrl', 'shift', 'r')    
+
+def sendPauseReport():
+    return P      
+
+def isresting(bar, buttons):
+    y = bar[1]
+
+    for (_, button_y, _, button_h) in buttons:
+        isBelow = y < (button_y + button_h)
+        isAbove = y > (button_y - button_h)
+        if isBelow and isAbove:
+            return False
+    return True
+
+def clickrestButtons():
+    
+    with mss.mss() as sct:
+            sct_img = np.array(
+                sct.grab(sct.monitors[streamConfig['monitor_to_use']]))
+    offset = [1,10]
+    commons = positions(common, threshold=0.65)
+    buttons = positions(rest, threshold=1) #configThreshold['go_to_work_btn']
+    
+    if streamConfig['debug'] is not False:
+        logger('%d commons detected' % len(commons), emoji='🟩')
+        logger('%d buttons detected' % len(buttons), emoji='🔳')
+        
+    if commons is False or buttons is False:
+        return
+
+    not_working_commons = []
+    for bar in commons:
+        if not isresting(bar, buttons):
+            not_working_commons.append(bar)
+    if len(not_working_commons) > 0:
+        logger('Clicking in %d heroes commons detected for rest.' %
+               len(not_working_commons), telegram=False, emoji='👆')
+        
+    # se tiver botao com y maior que bar y-10 e menor que y+10
+    ##########################################################
+    for (x, y, w, h) in buttons:
+        offset_random = random.uniform(offset[0], offset[1])
+        # isWorking(y, buttons)
+        # pyautogui.moveTo(x+offset+(w/2),y+(h/2),1)
+        hc.move((int(x+offset_random+(w/2)), int(y+(h/2))),np.random.randint(1, 2))
+        pyautogui.click()
+        cv2.rectangle(sct_img, (x, y) , (x + w, y + h), (0,255,255),2)
+        sleep(1, 3)
+    return len(not_working_commons)
+
+def getsuperHeroes():
+
+    logger('Search for heroes to work', emoji='🏢')
+
+    goToHeroes()
+
+    buttonsClicked = 0
+    heroes_clicked = 0
+    empty_scrolls_attempts = streamConfig['scroll_attempts']
+    
+    clickButton(allwork)
+    #clickButton(rest)
+    time.sleep(2)    
+    while(empty_scrolls_attempts > 0):
+        buttonsClicked = clickrestButtons()
+        if buttonsClicked is not None:
+            heroes_clicked += buttonsClicked
+
+        if buttonsClicked == 0 or buttonsClicked is None:
+            empty_scrolls_attempts = empty_scrolls_attempts - 1
+            scroll()
+        sleep(1, 3)
+    goToTreasureHunt()
+
+
+def clickwin(img, name=None, timeout=3, threshold=configThreshold['default']):
+    if not name is None:
+        pass
+    start = time.time()
+    clicked = False
+    while(not clicked):
+        matches = positions(img, threshold=threshold)
+        if(matches is False):
+            hast_timed_out = time.time()-start > timeout
+            if(hast_timed_out):
+                if not name is None:
+                    pass
+                    # print('timed out')
+                return False
+            # print('button not found yet')
+            continue
+        #print(matches)
+        x, y, w, h = matches[0]
+        pyautogui.moveTo(x+(w/2),y+(h/2)-up,1)
+        # pyautogui.moveTo(int(random.uniform(x, x+w)),int(random.uniform(y, y+h)),1)
+        #hc.move((int(random.uniform(x, x+w)), int(random.uniform(y, y+h))), 1)
+        pyautogui.click()
+        return True
+
+def changewin():
+    l=0
+    while l < 1:
+        clickButton(select_guia)
+        time.sleep(5)
+        clickwin(new_win)
+        time.sleep(5)
+        clickButton(select_guia)
+        time.sleep(5)
+        if positions(menu_de_guias) is not True:
+            time.sleep(5)
+            l=1
+
+#############################################
+
 
 def main():
 
     checkUpdates()
     input('Press Enter to start the bot...\n')
     logger('Starting bot...', telegram=True, emoji='🤖')
-    logger('Join us on BCBOT Telegram group: https://t.me/+WXjrE1Kdb1U1Mzg0', telegram=True, emoji='💖')
-    logger('Commands: \n\n /print \n /map \n /bcoin \n /invite \n /id \n /donation \n\n /stop - Stop bot', telegram=True, emoji='ℹ️')
+    logger('Commands: \n\n /print \n /map \n /bcoin \n /id \n /donation \n /heroes \n /AllWork \n /AllRest \n /refresh \n /Pause - Pause bot for 30min \n /stop - Stop bot', telegram=True, emoji='ℹ️')
     logger('Multi Account BETA is available. Run: python index-ma.py and not index.py for tests.', telegram=True, emoji='💡')
 
-    last = {
-        "login": 0,
-        "heroes": 0,
-        "new_map": 0,
-        "refresh_heroes": 0,
-        "check_updates": 0
-    }
-
+    n = acc+1
+    windows = []
+    
+    for w in range(1, n) :
+        windows.append({
+            "window": w,
+            "login" : 0,
+            "heroes" : 0,
+            "new_map" : 0,
+            "refresh_heroes" : 0
+            })
     while True:
         if currentScreen() == "login":
             login()
@@ -916,38 +1164,50 @@ def main():
         handleError()
 
         now = time.time()
+        
+        s=sendPauseReport()
+        if len(s) == 1:
+            logger('paused', emoji='🤖')
+            #logger(s)
+            time.sleep(Pause*60)
+            P.remove(1)
 
-        if now - last["heroes"] > next_refresh_heroes * 60:
-            last["heroes"] = now
-            last["refresh_heroes"] = now
-            getMoreHeroes()
-
-        if currentScreen() == "main":
-            if clickButton(teasureHunt_icon_img):
-                logger('Entering treasure hunt', emoji='▶️')
+        
+        for last in windows:
+            #last["window"].activate()
+            #time.sleep(2)
+            
+            last["window"]
+            changewin()
+            sleep(1, 2)
+        
+            if now - last["heroes"] > next_refresh_heroes * 60:
+                last["heroes"] = now
                 last["refresh_heroes"] = now
+                getMoreHeroes()
 
-        if currentScreen() == "thunt":
-            if clickButton(new_map_btn_img):
-                last["new_map"] = now
-                clickNewMap()
+            if currentScreen() == "main":
+                if clickButton(teasureHunt_icon_img):
+                    logger('Entering treasure hunt', emoji='▶️')
+                    last["refresh_heroes"] = now
 
-        if currentScreen() == "character":
-            clickButton(x_button_img)
-            sleep(1, 3)
+            if currentScreen() == "thunt":
+                if clickButton(new_map_btn_img):
+                    last["new_map"] = now
+                    clickNewMap()
 
-        if now - last["refresh_heroes"] > next_refresh_heroes_positions * 60:
-            last["refresh_heroes"] = now
-            refreshHeroesPositions()
+            if currentScreen() == "character":
+                clickButton(x_button_img)
+                sleep(1, 3)
 
-        if now - last["check_updates"] > check_for_updates * 60:
-            last["check_updates"] = now
-            checkUpdates()
+            if now - last["refresh_heroes"] > next_refresh_heroes_positions * 60:
+                last["refresh_heroes"] = now
+                refreshHeroesPositions()
 
-        checkLogout()
-        sys.stdout.flush()
-        time.sleep(general_check_time)
-        checkThreshold()
+            checkLogout()
+            #sys.stdout.flush()
+            time.sleep(general_check_time)
+            checkThreshold()
 
 
 if __name__ == '__main__':
