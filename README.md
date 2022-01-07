@@ -34,4 +34,4 @@ $0
 [mpcabete](https://github.com/mpcabete/bombcrypto-bot)  
 [vin350](https://github.com/vin350/bombcrypto-bot)  
 [afkapp](https://github.com/afkapp/bombcrypto-bcbot)  
-**If you are happy, donation for one of this projects**
+**If you are happy with this bot, donation for one of this projects**
