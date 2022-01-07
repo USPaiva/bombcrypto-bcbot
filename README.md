@@ -9,6 +9,7 @@ hotfix:
 images and removed send all heroes to work, excepted commons, when is a new map .
 
 beta version of multiaccount for windows.
+beta version of multiaccount for Ubuntu using firefox, if you want use other browser you need to change the images.
 
 # BombCrypto BCBOT
 This is a python bot to automate BombCrypto game.
