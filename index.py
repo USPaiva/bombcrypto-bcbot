@@ -74,10 +74,6 @@ if config_version > config_version_local:
     print('Error: Please update the config.yaml file.')
     print('Erro: Por favor atualize o arquivo config.yaml.')
 
-
-#herald_active= streamConfig['herald_active']
-#key_herald = streamConfig['key-herald']
-
 Pause= configTimeIntervals['Pause']
 
 telegramIntegration = False
@@ -125,8 +121,7 @@ full_stamina = cv2.imread('./images/targets/full-stamina.png')
 character_indicator = cv2.imread('./images/targets/character_indicator.png')
 error_img = cv2.imread('./images/targets/error.png')
 metamask_unlock_img = cv2.imread('./images/targets/unlock_metamask.png')
-metamask_cancel_button = cv2.imread(
-    './images/targets/metamask_cancel_button.png')
+metamask_cancel_button = cv2.imread('./images/targets/metamask_cancel_button.png')
 puzzle_img = cv2.imread('./images/targets/puzzle.png')
 piece = cv2.imread('./images/targets/piece.png')
 robot = cv2.imread('./images/targets/robot.png')
@@ -412,10 +407,6 @@ def sendMapReport():
     logger('Map report sent', telegram=True, emoji='📄')
     return True
 
-#BTS Herald - Get a notification if the bot stops 
-#def herald():
-    #if herald_active == True and key_herald != '':
-        #herald = requests.get('https://herald.btscenter.net/monitor/?app=bcbot&key='+key_herald)
         
 def clickButton(img, name=None, timeout=3, threshold=configThreshold['default']):
     if not name is None:
