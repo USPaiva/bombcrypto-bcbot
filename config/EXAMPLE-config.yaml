@@ -117,11 +117,11 @@
     go_to_work_btn: 0.9
 
     # [en_US]
-    # Default value: 0.9
+    # Default value: 0.85
     #
     # [pt_BR]
-    # Valor padrão: 0.9
-    green_bar: 0.9
+    # Valor padrão: 0.85
+    green_bar: 0.85
 
     # [en_US]
     # Default value: 0.7
