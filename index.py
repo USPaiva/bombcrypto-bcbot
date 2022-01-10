@@ -19,7 +19,7 @@ banner = """
 #*******************************************************************************************#
 #*********************** Please consider buying me a coffee ********************************#
 #*******************************************************************************************#
-#******** BUSD (BEP20):                                                       **************#
+#******** BUSD (BEP20): 0x614247F846fbB18F9B25FebA48357e3336a9cDD0            **************#
 #*******************************************************************************************#
 ---> Press CTRL+C to kill the bot or send /stop on Telegram.
 ---> Some configs can be found in the /config/config.yaml file.
@@ -211,7 +211,7 @@ if telegramIntegration == True:
 
         def send_wallet(update: Update, context: CallbackContext) -> None:
             update.message.reply_text(
-                f'🎁 BUSD/BCOIN(BEP20): \n\n  \n\n Thank You! 😀')
+                f'🎁 BUSD/BCOIN(BEP20): \n\n 0x614247F846fbB18F9B25FebA48357e3336a9cDD0  \n\n Thank You! 😀')
 
         def send_stop(update: Update, context: CallbackContext) -> None:
             logger('Shutting down bot...', telegram=True, emoji='🛑')
