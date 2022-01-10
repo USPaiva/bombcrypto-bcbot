@@ -14,30 +14,17 @@ import random
 import requests
 
 banner = """
-#******************************* BombCrypto Bot *********************************#
-#────────────────────────────────────────────────────────────────────────────────#
-#─██████████████───██████████████─██████████████───██████████████─██████████████─#
-#─██░░░░░░░░░░██───██░░░░░░░░░░██─██░░░░░░░░░░██───██░░░░░░░░░░██─██░░░░░░░░░░██─#
-#─██░░██████░░██───██░░██████████─██░░██████░░██───██░░██████░░██─██████░░██████─#
-#─██░░██──██░░██───██░░██─────────██░░██──██░░██───██░░██──██░░██─────██░░██─────#
-#─██░░██████░░████─██░░██─────────██░░██████░░████─██░░██──██░░██─────██░░██─────#
-#─██░░░░░░░░░░░░██─██░░██─────────██░░░░░░░░░░░░██─██░░██──██░░██─────██░░██─────#
-#─██░░████████░░██─██░░██─────────██░░████████░░██─██░░██──██░░██─────██░░██─────#
-#─██░░██────██░░██─██░░██─────────██░░██────██░░██─██░░██──██░░██─────██░░██─────#
-#─██░░████████░░██─██░░██████████─██░░████████░░██─██░░██████░░██─────██░░██─────#
-#─██░░░░░░░░░░░░██─██░░░░░░░░░░██─██░░░░░░░░░░░░██─██░░░░░░░░░░██─────██░░██─────#
-#─████████████████─██████████████─████████████████─██████████████─────██████─────#
-#────────────────────────────────────────────────────────────────────────────────#
-#********************************************************************************#
-#*********************** Please consider buying me a coffee *********************#
-#********************************************************************************#
-#******** BUSD/BCOIN (BEP20):  ********#
-#********************************************************************************#
-
-           ---> Press CTRL+C to kill the bot or send /stop on Telegram.
-          ---> Some configs can be found in the /config/config.yaml file.
-
-=================================================================================
+#******************************* BombCrypto Bot ********************************************#
+#───────────────────────────────────────────────────────────────────────────────────────────#
+#*******************************************************************************************#
+#*********************** Please consider buying me a coffee ********************************#
+#*******************************************************************************************#
+#******** BUSD (BEP20):                                                       **************#
+#*******************************************************************************************#
+---> Press CTRL+C to kill the bot or send /stop on Telegram.
+---> Some configs can be found in the /config/config.yaml file.
+---> futures updates can be found in the https://github.com/carecabrilhante/bombcrypto-bot
+============================================================================================
 """
 
 print(banner)
@@ -49,6 +36,7 @@ def readConfig():
         stream = s.read()
     return yaml.safe_load(stream)
 
+
 try:
     streamConfig = readConfig()
     configThreshold = streamConfig['threshold']
@@ -56,6 +44,8 @@ try:
     metamaskData = streamConfig['metamask']
     chestData = streamConfig['value_chests']
     offsets = streamConfig['offsets']
+    maubuntu = streamConfig['maubuntu']
+    mawindows = streamConfig['mawindows']
 except FileNotFoundError:
     print('Error: config.yaml file not found, rename EXAMPLE-config.yaml to config.yaml inside /config folder')
     print('Erro: Arquivo config.yaml não encontrado, renomear EXAMPLE-config.yaml para config.yaml dentro da pasta /config')
@@ -74,7 +64,10 @@ if config_version > config_version_local:
     print('Error: Please update the config.yaml file.')
     print('Erro: Por favor atualize o arquivo config.yaml.')
 
-Pause= configTimeIntervals['Pause']
+Pause = configTimeIntervals['Pause']
+acc = configTimeIntervals['acc']
+up = configTimeIntervals['up']
+
 
 telegramIntegration = False
 try:
@@ -105,6 +98,11 @@ login_attempts = 0
 next_refresh_heroes = configTimeIntervals['send_heroes_for_work'][0]
 next_refresh_heroes_positions = configTimeIntervals['refresh_heroes_positions'][0]
 
+
+if mawindows is True: 
+    import pygetwindow
+
+
 go_work_img = cv2.imread('./images/targets/go-work.png')
 home_img = cv2.imread('./images/targets/home.png')
 arrow_img = cv2.imread('./images/targets/go-back-arrow.png')
@@ -133,11 +131,27 @@ chest1 = cv2.imread('./images/targets/chest1.png')
 chest2 = cv2.imread('./images/targets/chest2.png')
 chest3 = cv2.imread('./images/targets/chest3.png')
 chest4 = cv2.imread('./images/targets/chest4.png')
-
+####################################################################
 allwork = cv2.imread('./images/targets/all_work.png')
 allrest = cv2.imread('./images/targets/all_rest.png')
 common = cv2.imread('./images/targets/common.png')
 rest = cv2.imread('./images/targets/go-rest.png')
+#########################################################
+server_manu = cv2.imread('./images/targets/server_online.png')
+bomb_guia = cv2.imread('./images/targets/bomb_guia.png')
+select_guia = cv2.imread('./images/targets/select_guia.png')
+menu_de_guias = cv2.imread('./images/targets/menu_de_guias.png')
+new_win = cv2.imread('./images/targets/new_win.png')
+#################################################################
+perfil_1_mozi = cv2.imread('./images/targets/perfil_1_mozi.png')
+perfil_2_mozi = cv2.imread('./images/targets/perfil_2_mozi.png')
+perfil_3_mozi = cv2.imread('./images/targets/perfil_3_mozi.png')
+#################################################################
+guia = cv2.imread('./images/targets/perfil_1_guia.png')
+perfil_2_guia = cv2.imread('./images/targets/perfil_2_guia.png')
+perfil_3_guia = cv2.imread('./images/targets/perfil_3_guia.png')
+
+
 
 def dateFormatted(format = '%Y-%m-%d %H:%M:%S'):
   datetime = time.localtime()
@@ -229,6 +243,10 @@ if telegramIntegration == True:
             if len(P) == 1:
                 update.message.reply_text('😿 Paused')
         
+        def restart(update: Update, context: CallbackContext) -> None:
+            update.message.reply_text('🔃 Restarted')
+            process()
+        
         commands = [
             ['print', send_print],
             ['id', send_id],
@@ -240,6 +258,7 @@ if telegramIntegration == True:
             ['heroes', send_heroes],
             ['AllWork', send_allwork],
             ['AllRest', send_allrest],
+            ['Restart', restart],
             ['stop', send_stop]
         ]
 
@@ -644,6 +663,8 @@ def currentScreen():
     elif positions(character_indicator) is not False:
         # sys.stdout.write("\ncharacter. ")
         return "character"
+    elif positions(bomb_guia) is not False:
+        return "bomb_guia"
     else:
         # sys.stdout.write("\nUnknown. ")
         return "unknown"
@@ -717,7 +738,6 @@ def login():
 
     if clickButton(sign_btn_img):
         logger('Found sign button. Waiting to check if logged in', emoji='✔️')
-        time.sleep(5)
         if clickButton(sign_btn_img):  # twice because metamask glitch
             logger(
                 'Found glitched sign button. Waiting to check if logged in', emoji='✔️')
@@ -944,6 +964,7 @@ def sendHeroesReport():
         logger('Telegram offline', emoji='😿')
     
     clickButton(x_button_img)
+    clickButton(teasureHunt_icon_img)
     logger('Heroes report sent', telegram=True, emoji='📄')
     
 def sendallworkReport():
@@ -967,8 +988,6 @@ def sendallworkReport():
     clickButton(allwork)
     clickButton(x_button_img)
     clickButton(teasureHunt_icon_img)
-    sleep(5, 15)
-    clickButton(x_button_img)
     logger('All working report sent', telegram=True, emoji='📄')
 
 def sendallrestReport():
@@ -992,8 +1011,6 @@ def sendallrestReport():
     clickButton(allrest)
     clickButton(x_button_img)
     clickButton(teasureHunt_icon_img)
-    sleep(5, 15)    
-    clickButton(x_button_img)
     logger('All resting report sent', telegram=True, emoji='📄')
 
 
@@ -1005,32 +1022,49 @@ def refreshNavigation():
 def sendPauseReport():
     return P      
 
+def isresting(bar, buttons):
+    y = bar[1]
+
+    for (_, button_y, _, button_h) in buttons:
+        isBelow = y < (button_y + button_h)
+        isAbove = y > (button_y - button_h)
+        if isBelow and isAbove:
+            return False
+    return True
+
 def clickrestButtons():
-    offset = offsets['work_button']
-    commons = positions(common, threshold=configThreshold['green_bar'])
-    buttons = positions(rest, threshold=configThreshold['go_to_work_btn'])
+    
+    with mss.mss() as sct:
+            sct_img = np.array(
+                sct.grab(sct.monitors[streamConfig['monitor_to_use']]))
+    offset = [1,10]
+    commons = positions(common, threshold=0.65)
+    buttons = positions(rest, threshold=1) #configThreshold['go_to_work_btn']
     
     if streamConfig['debug'] is not False:
         logger('%d commons detected' % len(commons), emoji='🟩')
         logger('%d buttons detected' % len(buttons), emoji='🔳')
+        
+    if commons is False or buttons is False:
+        return
 
     not_working_commons = []
     for bar in commons:
-        if not isWorking(bar, buttons):
+        if not isresting(bar, buttons):
             not_working_commons.append(bar)
     if len(not_working_commons) > 0:
         logger('Clicking in %d heroes commons detected for rest.' %
                len(not_working_commons), telegram=False, emoji='👆')
         
     # se tiver botao com y maior que bar y-10 e menor que y+10
-    for (x, y, w, h) in not_working_commons:
+    ##########################################################
+    for (x, y, w, h) in buttons:
         offset_random = random.uniform(offset[0], offset[1])
         # isWorking(y, buttons)
         # pyautogui.moveTo(x+offset+(w/2),y+(h/2),1)
-        hc.move((int(x+offset_random+(w/2)), int(y+(h/2))),
-                np.random.randint(1, 2))
+        hc.move((int(x+offset_random+(w/2)), int(y+(h/2))),np.random.randint(1, 2))
         pyautogui.click()
-        # cv2.rectangle(sct_img, (x, y) , (x + w, y + h), (0,255,255),2)
+        cv2.rectangle(sct_img, (x, y) , (x + w, y + h), (0,255,255),2)
         sleep(1, 3)
     return len(not_working_commons)
 
@@ -1045,6 +1079,7 @@ def getsuperHeroes():
     empty_scrolls_attempts = streamConfig['scroll_attempts']
     
     clickButton(allwork)
+    #clickButton(rest)
     time.sleep(2)    
     while(empty_scrolls_attempts > 0):
         buttonsClicked = clickrestButtons()
@@ -1058,23 +1093,78 @@ def getsuperHeroes():
     goToTreasureHunt()
 
 
+def clickwin(img, name=None, timeout=3, threshold=configThreshold['default']):
+    if not name is None:
+        pass
+    start = time.time()
+    clicked = False
+    while(not clicked):
+        matches = positions(img, threshold=threshold)
+        if(matches is False):
+            hast_timed_out = time.time()-start > timeout
+            if(hast_timed_out):
+                if not name is None:
+                    pass
+                    # print('timed out')
+                return False
+            # print('button not found yet')
+            continue
+        #print(matches)
+        x, y, w, h = matches[0]
+        pyautogui.moveTo(x+(w/2),y+(h/2)-up,1)
+        # pyautogui.moveTo(int(random.uniform(x, x+w)),int(random.uniform(y, y+h)),1)
+        #hc.move((int(random.uniform(x, x+w)), int(random.uniform(y, y+h))), 1)
+        pyautogui.click()
+        return True
+
+def changewin():
+    l=0
+    while l < 1:
+        clickButton(select_guia)
+        time.sleep(5)
+        clickwin(new_win)
+        time.sleep(5)
+        clickButton(select_guia)
+        time.sleep(5)
+        if positions(menu_de_guias) is not True:
+            time.sleep(5)
+            l=1
+
 #############################################
-def main():
 
-    checkUpdates()
-    input('Press Enter to start the bot...\n')
-    logger('Starting bot...', telegram=True, emoji='🤖')
-    logger('Commands: \n\n /print \n /map \n /bcoin \n /id \n /donation \n /heroes \n /AllWork \n /AllRest \n /refresh \n /Pause - Pause bot for 30min \n /stop - Stop bot', telegram=True, emoji='ℹ️')
-    logger('Multi Account BETA is available. Run: python index-ma.py and not index.py for tests.', telegram=True, emoji='💡')
-
-    last = {
-        "login": 0,
-        "heroes": 0,
-        "new_map": 0,
-        "refresh_heroes": 0,
-        "check_updates": 0
-    }
-
+def process(): 
+    
+    n = acc+1
+    windows = []
+    
+    if mawindows is False and maubuntu is False:
+        windows.append({
+                "window": 1,
+                "login" : 0,
+                "heroes" : 0,
+                "new_map" : 0,
+                "refresh_heroes" : 0
+                })
+    
+    if mawindows is True:
+        for w in pygetwindow.getWindowsWithTitle('bombcrypto'):
+            windows.append({
+            "window": w,
+            "login" : 0,
+            "heroes" : 0,
+            "new_map" : 0,
+            "refresh_heroes" : 0
+            })
+    
+    if maubuntu is True:
+        for w in range(1, n) :
+            windows.append({
+                "window": w,
+                "login" : 0,
+                "heroes" : 0,
+                "new_map" : 0,
+                "refresh_heroes" : 0
+                })       
     while True:
         if currentScreen() == "login":
             login()
@@ -1082,8 +1172,6 @@ def main():
         handleError()
 
         now = time.time()
-
-        #getsuperHeroes()
         
         s=sendPauseReport()
         if len(s) == 1:
@@ -1092,38 +1180,58 @@ def main():
             time.sleep(Pause*60)
             P.remove(1)
 
-        if now - last["heroes"] > next_refresh_heroes * 60:
-            last["heroes"] = now
-            last["refresh_heroes"] = now
-            getMoreHeroes()
-
-        if currentScreen() == "main":
-            if clickButton(teasureHunt_icon_img):
-                logger('Entering treasure hunt', emoji='▶️')
+        
+        for last in windows:
+            
+            #print(windows)
+            #print(last["window"])
+            
+            if mawindows is True:
+                last["window"].activate()
+                time.sleep(2)
+            
+            
+            if maubuntu is True:
+                last["window"]
+                changewin()
+                sleep(1, 2)
+        
+            if now - last["heroes"] > next_refresh_heroes * 60:
+                last["heroes"] = now
                 last["refresh_heroes"] = now
+                getMoreHeroes()
 
-        if currentScreen() == "thunt":
-            if clickButton(new_map_btn_img):
-                last["new_map"] = now
-                #getsuperHeroes()
-                clickNewMap()
+            if currentScreen() == "main":
+                if clickButton(teasureHunt_icon_img):
+                    logger('Entering treasure hunt', emoji='▶️')
+                    last["refresh_heroes"] = now
 
-        if currentScreen() == "character":
-            clickButton(x_button_img)
-            sleep(1, 3)
+            if currentScreen() == "thunt":
+                if clickButton(new_map_btn_img):
+                    last["new_map"] = now
+                    clickNewMap()
 
-        if now - last["refresh_heroes"] > next_refresh_heroes_positions * 60:
-            last["refresh_heroes"] = now
-            refreshHeroesPositions()
+            if currentScreen() == "character":
+                clickButton(x_button_img)
+                sleep(1, 3)
 
-        if now - last["check_updates"] > check_for_updates * 60:
-            last["check_updates"] = now
-            checkUpdates()
+            if now - last["refresh_heroes"] > next_refresh_heroes_positions * 60:
+                last["refresh_heroes"] = now
+                refreshHeroesPositions()
 
-        checkLogout()
-        sys.stdout.flush()
-        time.sleep(general_check_time)
-        checkThreshold()
+            checkLogout()
+            #sys.stdout.flush()
+            time.sleep(general_check_time)
+            checkThreshold()
+
+#########################################################################################
+def main():
+    checkUpdates()
+    input('Press Enter to start the bot...\n')
+    logger('Starting bot...', telegram=True, emoji='🤖')
+    logger('Commands: \n\n /print \n /map \n /bcoin \n /id \n /donation \n /heroes \n /AllWork \n /Restart \n /AllRest \n /refresh \n /Pause - Pause bot for 30min \n /stop - Stop bot', telegram=True, emoji='ℹ️')
+    logger('Multi Account BETA is available. enable in config.yaml and Run: python index.py for tests.', telegram=True, emoji='💡')
+    process()
 
 
 if __name__ == '__main__':
