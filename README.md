@@ -8,6 +8,8 @@ Update for new images.
 beta version of multiaccount for windows.
 beta version of multiaccount for Ubuntu using firefox, if you want use other browser you need to change the images.
 
+unified the all for only one index.py
+
 # BombCrypto BCBOT
 This bot is a fork of the old version of the bts22 bot.
 
@@ -33,5 +35,4 @@ $0
 ## Credits:
 [mpcabete](https://github.com/mpcabete/bombcrypto-bot)  
 [vin350](https://github.com/vin350/bombcrypto-bot)  
-[afkapp](https://github.com/afkapp/bombcrypto-bcbot)  
-**If you are happy with this bot, donation for one of this projects.**
+[afkapp](https://github.com/afkapp/bombcrypto-bcbot) 
