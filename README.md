@@ -21,7 +21,7 @@ It is fully open source and free, compatible with Windows and Ubuntu.
 
 
 ## 🎁 Donation:
-### BUSD/BCOIN (BEP20):
+### BUSD/BCOIN (BEP20): 0x614247F846fbB18F9B25FebA48357e3336a9cDD0
 
 ``` 
 - 27/Dec/21
