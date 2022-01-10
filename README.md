@@ -3,7 +3,7 @@ what is new?
 
 Update for new images.
 
-5 new commands for telegram: /refresh ; /Pause ; /heroes ; /allRest ; /allWork .
+6 new commands for telegram: /refresh ; /Pause ; /heroes ; /allRest ; /allWork ; /restart .
 
 beta version of multiaccount for windows.
 beta version of multiaccount for Ubuntu using firefox, if you want use other browser you need to change the images.
