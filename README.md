@@ -6,7 +6,8 @@ Update for new images.
 6 new commands for telegram: /refresh ; /Pause ; /heroes ; /allRest ; /allWork ; /restart .
 
 beta version of multiaccount for windows.
-beta version of multiaccount for Ubuntu using firefox, if you want use other browser you need to change the images.
+
+beta version of multiaccount for linux Ubuntu using firefox, if you want use other browser you need to change the images.
 
 unified the all for only one index.py
 
