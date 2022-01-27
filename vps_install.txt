@@ -1,6 +1,6 @@
 vps Google
-recommend use processor E3 2v, 4gb and ubutu 20.04
-recomendado usar o processador e3 2v, 4gb e o ubuntu 20.04
+recommend use processor E2 4vcpu, 6gb and ubutu 20.04
+recomendado usar o processador e2 4vcpu, 6gb e o ubuntu 20.04
 
 sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get install python3-pip
@@ -8,9 +8,9 @@ sudo apt-get install wget
 sudo apt-get install unzip
 wget https://github.com/carecabrilhante/bombcrypto-bcbot/archive/refs/heads/main.zip
 unzip main.zip
-cd bombcrypto-bot-main
+cd bombcrypto-bcbot-main
 pip3 install tesseract
-pip3 install -r requeriments.txt --force
+pip3 install -r requirements.txt --force
 sudo apt-get install ubuntu-desktop (if you didn't have Desktop interface)
 sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get update && sudo apt-get install -y xrdp && sudo service xrdp restart && sudo -s
