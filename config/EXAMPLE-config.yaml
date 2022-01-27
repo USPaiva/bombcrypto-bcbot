@@ -51,10 +51,10 @@
   # [en_US] Value of chests
   # [pt_BR] Valor de cada bau
   value_chests:
-    value_chest1: 0.01425
-    value_chest2: 0.0325
-    value_chest3: 0.1625
-    value_chest4: 0.325
+    value_chest1: 0.01
+    value_chest2: 0.03
+    value_chest3: 0.13
+    value_chest4: 0.27
   # [en_US] Metamask configs
   # [pt_BR] Configs da metamask
   metamask:
