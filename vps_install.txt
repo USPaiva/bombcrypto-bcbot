@@ -20,8 +20,14 @@ passwd
 (input your new password)
 sudo apt-get update && sudo apt-get upgrade -y
 
+Now connect with grafic support with: 
+user:root 
+password:(the password you choose)
+
+go to settings and go to User, select the user with your google name and create a new password, after you disconnect and reconnect with user with your google name and the password you choose.
+
 if bot failed because of telegram, use:
 pip3 install --upgrade --force-reinstall python_telegram_bot
 
-Now for execute, you only need go to the paste where is it located via terminal and use this command:
+Now for execute this in the grafic interface.You only need go to the paste where is it located via terminal and use this command:
 python3 index.py
