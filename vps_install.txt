@@ -15,6 +15,7 @@ sudo apt-get install ubuntu-desktop (if you didn't have Desktop interface)
 sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get update && sudo apt-get install -y xrdp && sudo service xrdp restart && sudo -s
 passwd
+(input your new password)
 sudo apt-get update && sudo apt-get upgrade -y
 
 if bot failed because of telegram, use:
