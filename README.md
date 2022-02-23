@@ -1,15 +1,13 @@
-# Version 1.9.0:
+# Version 1.9.1:
 what is new?
-
 Update for new images.
+Update the login system.
+OBS: the login system without using metamask don't support multiaccount.
 
-6 new commands for telegram: /refresh ; /Pause ; /heroes ; /allRest ; /allWork ; /restart .
 
-beta version of multiaccount for windows.
-
-beta version of multiaccount for linux Ubuntu using firefox, if you want use other browser you need to change the images.
-
-unified the all for only one index.py
+# Support:
+multiaccount for windows.
+multiaccount for linux Ubuntu using firefox, if you want use other browser you need to change the images.
 
 # BombCrypto BCBOT
 This bot is a fork of the old version of the bts22 bot.
