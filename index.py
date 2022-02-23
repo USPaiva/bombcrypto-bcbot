@@ -42,6 +42,7 @@ try:
     configThreshold = streamConfig['threshold']
     configTimeIntervals = streamConfig['time_intervals']
     metamaskData = streamConfig['metamask']
+    userData = streamConfig['User_login']
     chestData = streamConfig['value_chests']
     offsets = streamConfig['offsets']
     maubuntu = streamConfig['maubuntu']
@@ -143,13 +144,13 @@ select_guia = cv2.imread('./images/targets/select_guia.png')
 menu_de_guias = cv2.imread('./images/targets/menu_de_guias.png')
 new_win = cv2.imread('./images/targets/new_win.png')
 #################################################################
-perfil_1_mozi = cv2.imread('./images/targets/perfil_1_mozi.png')
-perfil_2_mozi = cv2.imread('./images/targets/perfil_2_mozi.png')
-perfil_3_mozi = cv2.imread('./images/targets/perfil_3_mozi.png')
+new_connect = cv2.imread('./images/targets/new_connect.png')
+user = cv2.imread('./images/targets/user.png')
+pswd = cv2.imread('./images/targets/pass.png')
+login = cv2.imread('./images/targets/login.png')
 #################################################################
 guia = cv2.imread('./images/targets/perfil_1_guia.png')
-perfil_2_guia = cv2.imread('./images/targets/perfil_2_guia.png')
-perfil_3_guia = cv2.imread('./images/targets/perfil_3_guia.png')
+
 
 
 
@@ -721,8 +722,22 @@ def login():
     if clickButton(connect_wallet_btn_img):
         logger('Connect wallet button detected, logging in!', emoji='🎉')
         time.sleep(2)
-        waitForImage((sign_btn_img, metamask_unlock_img), multiple=True)
-
+    if userData["enable_login"] is False:
+        if clickButton(new_connect):
+            waitForImage((sign_btn_img, metamask_unlock_img), multiple=True)
+    
+    if userData["enable_login"] is not False:
+        if  clickButton(user):
+            userR = userData["user"]
+            pyautogui.typewrite(userR, interval=0.1)
+            sleep(1, 3)
+        if  clickButton(pswd):
+            pswdR = userData["pswd"]
+            pyautogui.typewrite(pswdR, interval=0.1)
+            sleep(1, 3)
+        if clickButton(login):
+           time.sleep(2)
+            
     metamask_unlock_coord = positions(metamask_unlock_img)
     if metamask_unlock_coord is not False:
         if(metamaskData["enable_login_metamask"] is False):
@@ -825,6 +840,8 @@ def getMoreHeroes():
     logger('{} total heroes sent since the bot started'.format(
         heroes_clicked_total), telegram=True, emoji='🦸')
     goToTreasureHunt()
+    send_print()
+    sendBCoinReport()
 
 def checkLogout():
     if currentScreen() == "unknown" or currentScreen() == "login":
