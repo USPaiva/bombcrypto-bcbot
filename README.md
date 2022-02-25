@@ -9,7 +9,9 @@ OBS: the login system without using metamask don't support multiaccount.
 
 
 # Support:
+
 multiaccount for windows.
+
 multiaccount for linux Ubuntu using firefox, if you want use other browser you need to change the images.
 
 # BombCrypto BCBOT
