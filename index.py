@@ -840,8 +840,6 @@ def getMoreHeroes():
     logger('{} total heroes sent since the bot started'.format(
         heroes_clicked_total), telegram=True, emoji='🦸')
     goToTreasureHunt()
-    send_print()
-    sendBCoinReport()
 
 def checkLogout():
     if currentScreen() == "unknown" or currentScreen() == "login":
